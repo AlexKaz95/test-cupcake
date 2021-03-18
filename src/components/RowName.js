@@ -1,4 +1,4 @@
-function PairName() {
+function RowName({ title }) {
 
     const array = [
         "RUB/CUPCAKE",
@@ -10,10 +10,11 @@ function PairName() {
     ];
 
   return (
-    <div className="pair-name">
+    <div className="column">
+    <div className="title">{title}</div>
         {array.map( item => <div key={item} className = 'value'>{item}</div> )}
     </div>
   );
 }
 
-export default PairName;
+export default RowName;
