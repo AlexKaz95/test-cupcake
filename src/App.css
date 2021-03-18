@@ -1,11 +1,15 @@
-.App{
+.row{
   display: grid;
-  grid-template-columns: auto;
   grid-template-columns: repeat(4, 1fr);
 }
 
-.value, .title{
+.value, .value-min, .title{
   border: 1px solid #999;
   background-color: #f2f2f2;
   padding: 15px 10px;
+}
+
+.value-min{
+  color: #fff;
+  background-color: rgb(40, 119, 221);
 }
