@@ -1,16 +1,15 @@
 import './App.css';
-import Rows from './components/Rows'; 
 import { useState, useEffect } from 'react';
 
 function App() {
 
   const initData = {
-    "RUB/CUPCAKE": {first: 0, second: 0, third: 0, min: null},
-    'USD/CUPCAKE': {first: 0, second: 0, third: 0, min: null},
-    'EUR/CUPCAKE': {first: 0, second: 0, third: 0, min: null},
-    'RUB/USD': {first: 0, second: 0, third: 0, min: null},
-    'RUB/EUR': {first: 0, second: 0, third: 0, min: null},
-    'EUR/USD': {first: 0, second: 0, third: 0, min: null}
+    "RUB/CUPCAKE": {first: 0, second: 0, third: 0},
+    'USD/CUPCAKE': {first: 0, second: 0, third: 0},
+    'EUR/CUPCAKE': {first: 0, second: 0, third: 0},
+    'RUB/USD': {first: 0, second: 0, third: 0},
+    'RUB/EUR': {first: 0, second: 0, third: 0},
+    'EUR/USD': {first: 0, second: 0, third: 0}
   };
 
   const initMin = {
@@ -26,6 +25,7 @@ function App() {
   const [valuesMin, setValuesMin] = useState(initMin);
 
   useEffect(() => {
+
     async function subscribe(url, market) {
       const response = await fetch(url);
       
@@ -65,6 +65,26 @@ function App() {
   }, []);
 
   useEffect(() => {
+
+    function getMin(arrRow) {
+      const entries = Object.entries(arrRow);
+      let minMarket = entries[0][0];
+      for (let [key, value] of entries) {
+        if (value < arrRow[minMarket]) {
+          minMarket = key;
+        }
+      } 
+      return minMarket;
+    }
+
+    for (let key in valuesMin) {
+      setValuesMin(valuesMin => {
+        return ({
+          ...valuesMin,
+          [key]: getMin(data[key])
+        });
+      });
+    }
     
   }, [data])
 
@@ -79,9 +99,9 @@ function App() {
       </div>
         {Object.entries(data).map(item => <div className='row'>
           <div className='title'>{item[0]}</div>
-          <div className='value'>{+item[1].first.toFixed(3)}</div>
-          <div className='value'>{+item[1].second.toFixed(3)}</div>
-          <div className='value'>{+item[1].third.toFixed(3)}</div>
+          <div className={valuesMin[item[0]] === 'first'?'value-min':'value'}>{+item[1].first.toFixed(3)}</div>
+          <div className={valuesMin[item[0]] === 'second'?'value-min':'value'}>{+item[1].second.toFixed(3)}</div>
+          <div className={valuesMin[item[0]] === 'third'?'value-min':'value'}>{+item[1].third.toFixed(3)}</div>
         </div>)}
     </div>
     </>
