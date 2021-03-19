@@ -36,7 +36,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    for (let key in valuesMin) {
+    for (let key in data) {
       setValuesMin({key, row: data[key]});
     }
   }, [data])
@@ -45,7 +45,7 @@ function App() {
     <div className="App">
       <HeaderTable />
       {Object.entries(data).map(item => 
-        <Row item={item} valuesMin={valuesMin}/>
+        <Row key={item[0]} item={item} valuesMin={valuesMin}/>
       )}
     </div>
   );

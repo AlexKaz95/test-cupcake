@@ -1,7 +1,7 @@
 export function reducerData(state, action) {
     let newState = {};
     for (let pair in state) {
-      newDataState[pair] = {
+      newState[pair] = {
         ...state[pair],
         [action.market]: action.rates[pair]
       }
